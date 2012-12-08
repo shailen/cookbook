@@ -1,0 +1,7 @@
+name: concatenating_strings
+description: A sample application demonstrating string concatenation in Dart
+
+dependencies:
+  unittest: { sdk: unittest }
+ 
+ 
