@@ -1,0 +1,5 @@
+name:  character_codes
+description:  A sample application demonstrating the use of character codes and Strings in Dart
+
+dependencies:
+  unittest: { sdk: unittest }

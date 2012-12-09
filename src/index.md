@@ -1,4 +1,6 @@
-## Concatenating Strings
+## Strings
+
+### Concatenating Strings
 
 String concatenation using a `+` works in a lot of languages, but not in Dart.
 Since the `+` operator has not been defined for stings, the following code
@@ -37,7 +39,7 @@ only when needed.
 You can also use string interpolation; that is the subject of different
 recipe.
 
-## Interpolating Expressions Inside Strings
+### Interpolating Expressions Inside Strings
 
 You can access the value of an expression inside a string by using `${expression}`.
 
@@ -94,3 +96,42 @@ Creating a function and immediately calling it is useful in a lot of
 situations (it is a common practice in Javascript); but, watch out: 
 doing this sort of thing can lead to hard to maintain code. An abudance
 of caution is advised ;) 
+
+
+### Converting Between Character Codes and Strings
+
+To get a list of character codes for a string, use `charCodes`:
+
+MERGE(character_codes_use_charCodes)
+  
+To get a specific character code, you can either subscript `charCodes`, or 
+use `charCodeAt`:
+
+MERGE(character_codes_use_charCodeAt)
+  
+To assemble a string from a list of character codes, use the `String` factory,
+`fromCharCodes`:
+
+MERGE(character_codes_use_fromCharCodes)
+
+  
+If you are using a StringBuffer to build up a string, you can add individual
+charCodes using `addCharCode` (use `add()` to add characters; use `addCharCode()`
+to add charCodes):
+
+MERGE(character_codes_use_StringBuffer)
+
+Here is an implementation of the `rot13` algorithm, using the tools described above.
+`rot13` is a simple letter substitution algorithm that rotates a string by 13
+places by replacing each character in it by one that is 13 characters removed
+('a' becomes 'n', 'N' becomes 'A', etc.):
+
+MERGE(character_codes_rot13)
+
+Running the code:
+ 
+MERGE(character_codes_use_rot13)
+
+and:
+
+MERGE(character_codes_use_rot13_with_non_alpha)
