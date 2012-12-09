@@ -1,0 +1,6 @@
+name:  string_interpolation
+description:  A sample application demonstrating the use of string interpolation in Dart
+
+dependencies:
+  unittest: { sdk: unittest }
+  
