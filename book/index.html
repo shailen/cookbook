@@ -33,9 +33,12 @@ Dart Cookbook
 <h2 id="introduction">Introduction</h2>
 <h2 id="strings">Strings</h2>
 <h3 id="concatenating-strings"><a id="concatenating_strings"></a>Concatenating Strings</h3>
+<h4 id="problem">Problem</h4>
 <p>String concatenation using a <code>+</code> works in a lot of languages, but not in Dart. Since the <code>+</code> operator has not been defined for stings, the following code throws a <code>NoSuchMethodError</code>:</p>
 <pre><code>String s = &quot;hello, &quot; + &quot;world!&quot;;</code></pre>
-<p>So, how <em>do</em> you concatenate strings in Dart? The easiest, most efficient way is by using adjacent string literals:</p>
+<p>So, how <em>do</em> you concatenate strings in Dart?</p>
+<h4 id="solution">Solution</h4>
+<p>The easiest, most efficient way is by using adjacent string literals:</p>
 <pre><code>String s =  &quot;hello, &quot; &quot;world!&quot;;</code></pre>
 <p>This still works if the adjacent strings are on different lines:</p>
 <pre><code>String s = &quot;hello, &quot;
@@ -52,6 +55,9 @@ String s = Strings.concatAll([&quot;hello, &quot;, &quot;world!&quot;]); </code>
 <p>All of the above work, but if you are looking for a <code>+</code> substitute, use adjacent string literals; if you need to join a list of strings using a delimiter, use <code>Strings.join()</code>. If you plan on building a very long string, use <code>StringBuffer</code> to gather the components and convert them to a string only when needed.</p>
 <p>You can also use string interpolation; that is the subject of different recipe.</p>
 <h3 id="interpolating-expressions-inside-strings"><a id="interpolating_expressions_inside_strings"></a>Interpolating Expressions Inside Strings</h3>
+<h4 id="problem-1">Problem</h4>
+<p>You want to use identifiers and Dart expressions in Strings.</p>
+<h4 id="solution-1">Solution</h4>
 <p>You can access the value of an expression inside a string by using <code>${expression}</code>.</p>
 <pre><code>String greeting = &quot;hello&quot;;
 String person = &quot;Kathy&quot;;
@@ -104,6 +110,9 @@ String s = &quot;${
 <p>The code above defines an anonymous function to pick a random name from a list and then calls that function with <code>names</code> as an argument. All of this is done as part of string interpolation.</p>
 <p>Creating a function and immediately calling it is useful in a lot of situations (it is a common practice in Javascript); but, watch out: doing this sort of thing can lead to hard to maintain code. An abudance of caution is advised ;)</p>
 <h3 id="converting-between-character-codes-and-strings"><a id="converting_between_character_codes_and_strings"></a>Converting Between Character Codes and Strings</h3>
+<h4 id="problem-2">Problem</h4>
+<p>You want to get the ascii character codes for a string, or to get the string corresponding to ascii codes.</p>
+<h4 id="solution-2">Solution</h4>
 <p>To get a list of character codes for a string, use <code>charCodes</code>:</p>
 <pre><code>String s = &quot;hello&quot;;
 List&lt;int&gt; charCodes = s.charCodes;
@@ -162,7 +171,9 @@ String str2 = rot13(rot13(str1));
 <h2 id="testing">Testing</h2>
 <h3 id="running-only-a-single-test"><a id="running_only_a_single_test"></a>Running Only a Single Test</h3>
 <p>pubspec dependencies: <em>unittest, args</em></p>
+<h4 id="problem-3">Problem</h4>
 <p>You are coding away furiously and diligently writing tests for everything. But, running all your tests takes time and you want to run just a single test, perhaps the one for the code you are working on.</p>
+<h4 id="solution-3">Solution</h4>
 <p>The easiest way to do this is to convert a <code>test()</code>s to a <code>solo_test()</code>:</p>
 <pre><code>import &quot;package:unittest/unittest.dart&quot;;
 

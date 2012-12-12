@@ -29,14 +29,17 @@
 
 ### <a id="concatenating_strings"></a>Concatenating Strings
 
+#### Problem
 String concatenation using a `+` works in a lot of languages, but not in Dart.
 Since the `+` operator has not been defined for stings, the following code
 throws a `NoSuchMethodError`:
 
 MERGE(concatenating_strings_usePlusOperator)
      
-So, how _do_ you concatenate strings in Dart? The easiest, most efficient way
-is by using adjacent string literals:
+So, how _do_ you concatenate strings in Dart?
+
+#### Solution
+The easiest, most efficient way is by using adjacent string literals:
 
 MERGE(concatenating_strings_useAdjacentStringLiterals)
 
@@ -67,6 +70,11 @@ You can also use string interpolation; that is the subject of different
 recipe.
 
 ### <a id="interpolating_expressions_inside_strings"></a>Interpolating Expressions Inside Strings
+
+#### Problem
+You want to use identifiers and Dart expressions in Strings.
+
+#### Solution
 
 You can access the value of an expression inside a string by using `${expression}`.
 
@@ -127,6 +135,12 @@ of caution is advised ;)
 
 ### <a id="converting_between_character_codes_and_strings"></a>Converting Between Character Codes and Strings
 
+#### Problem
+You want to get the ascii character codes for a string, or to get the
+string corresponding to ascii codes.
+
+#### Solution
+
 To get a list of character codes for a string, use `charCodes`:
 
 MERGE(character_codes_use_charCodes)
@@ -169,10 +183,12 @@ MERGE(character_codes_use_rot13_with_non_alpha)
 
 pubspec dependencies: _unittest, args_
 
+#### Problem
 You are coding away furiously and diligently writing tests for everything. But,
 running all your tests takes time and you want to run just a single test,
 perhaps the one for the code you are working on.
 
+#### Solution
 The easiest way to do this is to convert a `test()`s to a `solo_test()`:
 
 MERGE(solo_test_code)
