@@ -1,0 +1,6 @@
+name:  filtering_tests
+description:  A sample application
+
+dependencies:
+  unittest: any
+  args: any

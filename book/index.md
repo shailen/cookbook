@@ -22,6 +22,7 @@
     - [Converting Between Character Codes and Strings](#converting_between_character_codes_and_strings)
 - [Testing](#testing)
     - [Running Only a Single Test](#running_only_a_single_test)
+    - [Filtering Which Tests Are Run](#filtering_which_tests_are_run)
 
 ## Introduction
 
@@ -379,6 +380,80 @@ Here is the complete example:
 	  // run the tests (we turned off auto-running of tests, remember?
 	  runTests();
 	}
+
+### <a id="filtering_which_tests_are_run"></a>Filtering Which Tests Are Run
+
+#### Problem
+You want to run just a subset of your tests, perhaps those  whose description
+contains a word or a phrase, or that are collected together in a `group()`.
+
+#### Solution
+
+Use `filterTests()` with with a String or a RegExp argument; if a test's
+description matches the argument, the test runs, otherwise, it doesn't. 
+
+Before you use `filterTests()`, you need to disable the automatic running of
+tests (create and use a simple custom configuration that sets `autoStart` to false)
+and call `filterTests()` _after_ your `test()` and `group()` definitions. Here
+is a simple recipe that takes the string argument to `filterTests()` from the
+command line. 
+
+	import "package:unittest/unittest.dart";
+	import "package:args/args.dart";
+	
+	class FilterTests extends Configuration {
+	  get autoStart => false;
+	}
+	
+	void useFilteredTests() {
+	  configure(new FilterTests());
+	  ensureInitialized();
+	}
+	
+	void main() {
+	  useFilteredTests();
+	
+	  // get the args from the command line
+	  ArgParser argParser = new ArgParser();
+	  Options options = new Options();
+	  ArgResults results = argParser.parse(options.arguments);
+	  List<String> args = results.rest;
+	
+	  test("one banana", () => expect(1, equals(1)));
+	  test("two banana", () => expect(2, equals(2)));
+	  test("three banana",()  => expect(3, equals(3)));
+	  test("four", () => expect(4, equals(4)));
+	
+	  group("Betty Botter bought a bit of", () {
+	    test("butter", () => expect("butter".length, equals(6)));
+	    test("better butter", () => expect("better butter".length, equals(13)));
+	  });
+	
+	  if (!args.isEmpty) {
+	    filterTests(args[0]);
+	  }
+	  runTests();
+	}
+	
+
+syntax. If the keyword is `four`, only one test run.
+
+	unittest-suite-wait-for-done
+	PASS: four
+	
+	All 1 tests passed.
+	unittest-suite-success
+
+If it is `Betty`, all tests in `group()` run (same if it is 'butter').
+
+	unittest-suite-wait-for-done
+	PASS: Betty Botter bought a bit of butter
+	PASS: Betty Botter bought a bit of better butter
+	
+	All 2 tests passed.
+	unittest-suite-success
+
+If it is `banana`, 3 tests run.  Without a keyword, all tests run.
 
 </body>
 </html>

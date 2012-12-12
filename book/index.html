@@ -28,6 +28,7 @@ Dart Cookbook
 <li><a href="#testing">Testing</a>
 <ul>
 <li><a href="#running_only_a_single_test">Running Only a Single Test</a></li>
+<li><a href="#filtering_which_tests_are_run">Filtering Which Tests Are Run</a></li>
 </ul></li>
 </ul>
 <h2 id="introduction">Introduction</h2>
@@ -266,6 +267,62 @@ void main() {
   // run the tests (we turned off auto-running of tests, remember?
   runTests();
 }</code></pre>
+<h3 id="filtering-which-tests-are-run"><a id="filtering_which_tests_are_run"></a>Filtering Which Tests Are Run</h3>
+<h4 id="problem-4">Problem</h4>
+<p>You want to run just a subset of your tests, perhaps those whose description contains a word or a phrase, or that are collected together in a <code>group()</code>.</p>
+<h4 id="solution-4">Solution</h4>
+<p>Use <code>filterTests()</code> with with a String or a RegExp argument; if a test's description matches the argument, the test runs, otherwise, it doesn't.</p>
+<p>Before you use <code>filterTests()</code>, you need to disable the automatic running of tests (create and use a simple custom configuration that sets <code>autoStart</code> to false) and call <code>filterTests()</code> <em>after</em> your <code>test()</code> and <code>group()</code> definitions. Here is a simple recipe that takes the string argument to <code>filterTests()</code> from the command line.</p>
+<pre><code>import &quot;package:unittest/unittest.dart&quot;;
+import &quot;package:args/args.dart&quot;;
+
+class FilterTests extends Configuration {
+  get autoStart =&gt; false;
+}
+
+void useFilteredTests() {
+  configure(new FilterTests());
+  ensureInitialized();
+}
+
+void main() {
+  useFilteredTests();
+
+  // get the args from the command line
+  ArgParser argParser = new ArgParser();
+  Options options = new Options();
+  ArgResults results = argParser.parse(options.arguments);
+  List&lt;String&gt; args = results.rest;
+
+  test(&quot;one banana&quot;, () =&gt; expect(1, equals(1)));
+  test(&quot;two banana&quot;, () =&gt; expect(2, equals(2)));
+  test(&quot;three banana&quot;,()  =&gt; expect(3, equals(3)));
+  test(&quot;four&quot;, () =&gt; expect(4, equals(4)));
+
+  group(&quot;Betty Botter bought a bit of&quot;, () {
+    test(&quot;butter&quot;, () =&gt; expect(&quot;butter&quot;.length, equals(6)));
+    test(&quot;better butter&quot;, () =&gt; expect(&quot;better butter&quot;.length, equals(13)));
+  });
+
+  if (!args.isEmpty) {
+    filterTests(args[0]);
+  }
+  runTests();
+}</code></pre>
+<p>syntax. If the keyword is <code>four</code>, only one test run.</p>
+<pre><code>unittest-suite-wait-for-done
+PASS: four
+
+All 1 tests passed.
+unittest-suite-success</code></pre>
+<p>If it is <code>Betty</code>, all tests in <code>group()</code> run (same if it is 'butter').</p>
+<pre><code>unittest-suite-wait-for-done
+PASS: Betty Botter bought a bit of butter
+PASS: Betty Botter bought a bit of better butter
+
+All 2 tests passed.
+unittest-suite-success</code></pre>
+<p>If it is <code>banana</code>, 3 tests run. Without a keyword, all tests run.</p>
 </body>
 </html>
 

@@ -22,6 +22,7 @@
     - [Converting Between Character Codes and Strings](#converting_between_character_codes_and_strings)
 - [Testing](#testing)
     - [Running Only a Single Test](#running_only_a_single_test)
+    - [Filtering Which Tests Are Run](#filtering_which_tests_are_run)
 
 ## Introduction
 
@@ -229,6 +230,35 @@ MERGE(setsolotest_output_without_arg)
 Here is the complete example:
 
 MERGE(setsolotest_complete_example)
+
+### <a id="filtering_which_tests_are_run"></a>Filtering Which Tests Are Run
+
+#### Problem
+You want to run just a subset of your tests, perhaps those  whose description
+contains a word or a phrase, or that are collected together in a `group()`.
+
+#### Solution
+
+Use `filterTests()` with with a String or a RegExp argument; if a test's
+description matches the argument, the test runs, otherwise, it doesn't. 
+
+Before you use `filterTests()`, you need to disable the automatic running of
+tests (create and use a simple custom configuration that sets `autoStart` to false)
+and call `filterTests()` _after_ your `test()` and `group()` definitions. Here
+is a simple recipe that takes the string argument to `filterTests()` from the
+command line. 
+
+MERGE(filtering_tests_code)
+
+syntax. If the keyword is `four`, only one test run.
+
+MERGE(filtering_tests_keyword_equals_four)
+
+If it is `Betty`, all tests in `group()` run (same if it is 'butter').
+
+MERGE(filtering_tests_keyword_equals_Betty)
+
+If it is `banana`, 3 tests run.  Without a keyword, all tests run.
 
 </body>
 </html>
