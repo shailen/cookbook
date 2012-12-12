@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<head>
+  
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<title>
+Dart Cookbook
+</title>
+  
+<link rel="stylesheet"
+  href="http://1-ps.googleusercontent.com/x/s.dart-lang.appspot.com/www.dartlang.org/css/W.style.css.pagespeed.cf.RjqwNm2LxS.css"
+  />
+<style type="text/css">
+    body {margin-left:20px;}
+  </style>
+</head>
+<body>
+
+<h1 id="dart-cookbook">Dart Cookbook</h1>
+<h2 id="contents">Contents</h2>
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#strings">Strings</a>
+<ul>
+<li><a href="#concatenating_strings">Concatenating Strings</a></li>
+<li><a href="#interpolating_expressions_inside_strings">Interpolating Expressions Inside Strings</a></li>
+<li><a href="#converting_between_character_codes_and_strings">Converting Between Character Codes and Strings</a></li>
+</ul></li>
+<li><a href="#testing">Testing</a>
+<ul>
+<li><a href="#running_only_a_single_test">Running Only a Single Test</a></li>
+</ul></li>
+</ul>
+<h2 id="introduction">Introduction</h2>
+<h2 id="strings">Strings</h2>
+<h3 id="concatenating-strings"><a id="concatenating_strings"></a>Concatenating Strings</h3>
+<p>String concatenation using a <code>+</code> works in a lot of languages, but not in Dart. Since the <code>+</code> operator has not been defined for stings, the following code throws a <code>NoSuchMethodError</code>:</p>
+<pre><code>String s = &quot;hello, &quot; + &quot;world!&quot;;</code></pre>
+<p>So, how <em>do</em> you concatenate strings in Dart? The easiest, most efficient way is by using adjacent string literals:</p>
+<pre><code>String s =  &quot;hello, &quot; &quot;world!&quot;;</code></pre>
+<p>This still works if the adjacent strings are on different lines:</p>
+<pre><code>String s = &quot;hello, &quot;
+    &quot;world!&quot;;</code></pre>
+<p>Dart also has a <code>StringBuffer</code> class; this can be used to build up a <code>StringBuffer</code> object and convert it to a string by calling <code>toString()</code> on it:</p>
+<pre><code>var sb = new StringBuffer(); 
+[&quot;hello, &quot;, &quot;world!&quot;].forEach((item) {
+  sb.add(item);
+  });
+String s = sb.toString();</code></pre>
+<p>The <code>Strings</code> class (notice the plural) gives us 2 methods, <code>join()</code> and <code>concatAll()</code> that can also be used. <code>Strings.join()</code> takes a delimiter as a second argument.</p>
+<pre><code>String s = Strings.join([&quot;hello&quot;, &quot;world!&quot;], &quot;, &quot;); 
+String s = Strings.concatAll([&quot;hello, &quot;, &quot;world!&quot;]); </code></pre>
+<p>All of the above work, but if you are looking for a <code>+</code> substitute, use adjacent string literals; if you need to join a list of strings using a delimiter, use <code>Strings.join()</code>. If you plan on building a very long string, use <code>StringBuffer</code> to gather the components and convert them to a string only when needed.</p>
+<p>You can also use string interpolation; that is the subject of different recipe.</p>
+<h3 id="interpolating-expressions-inside-strings"><a id="interpolating_expressions_inside_strings"></a>Interpolating Expressions Inside Strings</h3>
+<p>You can access the value of an expression inside a string by using <code>${expression}</code>.</p>
+<pre><code>String greeting = &quot;hello&quot;;
+String person = &quot;Kathy&quot;;
+String s = &quot;I said ${greeting} to ${person}&quot;;
+// I said hello to Kathy</code></pre>
+<p>If the expression is an identifier, the <code>{}</code> can be skipped.</p>
+<pre><code>String s = &quot;I said $greeting to $person&quot;;</code></pre>
+<p>If the variable inside the <code>{}</code> isn't a string, the variable's <code>toString()</code> method is called:</p>
+<pre><code>int x = 5;
+String s = &quot;There are ${x.toString()} people in this room&quot;;</code></pre>
+<p>The call to <code>toString()</code> is unnecessary (although harmless) in this case: <code>toString()</code> is already defined for ints and Dart automatically calls <code>toString()</code>. What this does mean, though, is that it is the user's responsibility to define a <code>toString()</code> method when interpolating user-defined objects.</p>
+<p>This will not work as expected:</p>
+<pre><code>class Book {
+  String title;
+  Book(this.title);
+}
+Book book = new Book(&quot;War and Peace&quot;);
+String s = &quot;The book is &#39;${book}&#39;&quot;;
+// The book is &quot;Instance of &#39;Book&#39;&quot;</code></pre>
+<p>But this will:</p>
+<pre><code>class Song {
+  String title;
+  Song(this.title);
+  String toString() {
+    return this.title;
+  }
+}
+Song song = new Song(&quot;You can call me Al&quot;);
+String s = &quot;The song is &#39;${song}&#39;&quot;; // The song is &#39;You can call me Al&#39;</code></pre>
+<p>You can interpolate expressions of arbitrary complexity by placing them inside <code>${}</code>:</p>
+<p>A ternary <code>if..else</code>:</p>
+<pre><code>int x = 5;
+String s = &quot;There are ${x &lt; 10 ? &quot;a few&quot; : &quot;many&quot;} people in this room&quot;;</code></pre>
+<p>List and Map operations:</p>
+<pre><code>List list = [1, 2, 3, 4, 5];
+String s1 = &quot;The list is $list, and when squared it is ${list.map((i) {return
+i * i;})}&quot;;
+// The list is [1, 2, 3, 4, 5], and when squared it is [1, 4, 9, 16, 25]
+
+Map map = {&quot;ca&quot;: &quot;California&quot;, &quot;pa&quot;: &quot;Pennsylvania&quot;};
+String s2 = &quot;I live in sunny ${map[&#39;ca&#39;]}&quot;;
+// I live in sunny California</code></pre>
+<p>Notice above that you can access <code>$list</code>(an identifier) without using <code>{}</code>, but the call to <code>list.map</code>(an expression) needs to be inside <code>{}</code>.</p>
+<p>Expressions inside <code>${}</code> can be arbitrarily complex:</p>
+<pre><code>List names = [&#39;John&#39;, &#39;Paul&#39;, &#39;George&#39;, &#39;Ringo&#39;];
+String s = &quot;${
+  ((names) {
+      return names[(new math.Random()).nextInt(names.length)];
+  })(names)} was the most important member of the Beatles&quot;;</code></pre>
+<p>The code above defines an anonymous function to pick a random name from a list and then calls that function with <code>names</code> as an argument. All of this is done as part of string interpolation.</p>
+<p>Creating a function and immediately calling it is useful in a lot of situations (it is a common practice in Javascript); but, watch out: doing this sort of thing can lead to hard to maintain code. An abudance of caution is advised ;)</p>
+<h3 id="converting-between-character-codes-and-strings"><a id="converting_between_character_codes_and_strings"></a>Converting Between Character Codes and Strings</h3>
+<p>To get a list of character codes for a string, use <code>charCodes</code>:</p>
+<pre><code>String s = &quot;hello&quot;;
+List&lt;int&gt; charCodes = s.charCodes;
+// [104, 101, 108, 108, 111]</code></pre>
+<p>To get a specific character code, you can either subscript <code>charCodes</code>, or use <code>charCodeAt</code>:</p>
+<pre><code>int charCode = s.charCodeAt(0); // 104</code></pre>
+<p>To assemble a string from a list of character codes, use the <code>String</code> factory, <code>fromCharCodes</code>:</p>
+<pre><code>List&lt;int&gt; charCodes = [104, 101, 108, 108, 111];
+String s = new String.fromCharCodes(charCodes);</code></pre>
+<p>If you are using a StringBuffer to build up a string, you can add individual charCodes using <code>addCharCode</code> (use <code>add()</code> to add characters; use <code>addCharCode()</code> to add charCodes):</p>
+<pre><code>StringBuffer sb = new StringBuffer();
+List&lt;int&gt; charCodes = [104, 101, 108, 108, 111];
+charCodes.forEach((charCode) {
+  sb.addCharCode(charCode);
+});
+String s = sb.toString(); // &quot;Hello&quot; </code></pre>
+<p>Here is an implementation of the <code>rot13</code> algorithm, using the tools described above. <code>rot13</code> is a simple letter substitution algorithm that rotates a string by 13 places by replacing each character in it by one that is 13 characters removed ('a' becomes 'n', 'N' becomes 'A', etc.):</p>
+<pre><code>String rot13(String s) {
+  List&lt;int&gt; rotated = [];
+
+  s.charCodes.forEach((charCode) {
+    final int numLetters = 26;
+    final int A = 65;
+    final int a = 97;
+    final int Z = A + numLetters;
+    final int z = a + numLetters;
+
+    if (charCode &lt; A ||
+        charCode &gt; z ||
+        charCode &gt; Z &amp;&amp; charCode &lt; a) {
+      rotated.add(charCode);
+    }
+    else {
+      if ([A, a].some((item){
+        return item &lt;= charCode &amp;&amp; charCode &lt; item + 13;
+      })) {
+        rotated.add(charCode + 13);
+      } else {
+        rotated.add(charCode - 13);
+      }   
+    }
+  });
+
+  return (new String.fromCharCodes(rotated));
+}</code></pre>
+<p>Running the code:</p>
+<pre><code>var wordList = [&quot;Jung&quot;, &quot;be&quot;, &quot;purely&quot;, &quot;barf&quot;];
+List rotated = wordList.map((word) {
+    return rot13(word);
+  });
+// [&quot;What&quot;, &quot;or&quot;, &quot;cheryl&quot;, &quot;ones&quot;]</code></pre>
+<p>and:</p>
+<pre><code>String str1 = &quot;aMz####AmZ&quot;;
+String str2 = rot13(rot13(str1));
+// str1 == str2</code></pre>
+<h2 id="testing">Testing</h2>
+<h3 id="running-only-a-single-test"><a id="running_only_a_single_test"></a>Running Only a Single Test</h3>
+<p>pubspec dependencies: <em>unittest, args</em></p>
+<p>You are coding away furiously and diligently writing tests for everything. But, running all your tests takes time and you want to run just a single test, perhaps the one for the code you are working on.</p>
+<p>The easiest way to do this is to convert a <code>test()</code>s to a <code>solo_test()</code>:</p>
+<pre><code>import &quot;package:unittest/unittest.dart&quot;;
+
+void main() {
+  test(&quot;test that&#39;s already running fine&quot;, () {
+    expect(&#39;foo&#39;, equals(&#39;foo&#39;));
+  }); // this test will not run
+
+  solo_test(&quot;test I am working on now&quot;, () {
+    expect(&#39;bar&#39;, equals(&#39;bar&#39;));
+  });
+}</code></pre>
+<p>Run the tests now and you'll see that only the <code>solo_test()</code> runs; the <code>test()</code> does not.</p>
+<pre><code>unittest-suite-wait-for-done
+PASS: test I am working on now
+
+All 1 tests passed.
+unittest-suite-success</code></pre>
+<p>You can also run a single test by passing the <code>id</code> of that test to <code>setSoloTest()</code> (see <code>unittest/src/unittest.dart</code>), perhaps as a command-line arg.</p>
+<p>Since the default <code>unittest</code> ouput does not include the test <code>id</code>, you need to extend the default Configuration class (see unittest/src/config.dart):</p>
+<pre><code>import &#39;package:unittest/unittest.dart&#39;;
+import &#39;package:args/args.dart&#39;;
+
+class SingleTestConfiguration extends Configuration {
+  get autoStart =&gt; false;
+  void onDone(int passed, int failed, int errors, List&lt;TestCase&gt; testCases,
+              String uncaughtError) {
+    testCases.forEach((testCase){
+      // get the id of the testCase in there
+      print(&quot;${testCase.id}\t${testCase.result.toUpperCase()}: ${testCase.description}&quot;);
+      });
+   // skip the summary that is normally provided here...
+  }
+}</code></pre>
+<p>Our custom configuration is pretty minimal: we modify the default <code>Configuration</code>'s <code>onDone()</code> to include the test <code>id</code> on every line (<code>onDone()</code> also outputs a summary of the entire test run; we skip that here).</p>
+<p>Now we need code to use our new configuration and to initialize the test framework (we put code for that in <code>useSingleTestConfiguration()</code> and call that function from <code>main()</code>):</p>
+<pre><code>void useSingleTestConfiguration() {
+  configure(new SingleTestConfiguration());
+  ensureInitialized();  
+}</code></pre>
+<p>We use <code>ArgParser</code> to parse the command line arguments: if an id is provided through the command line, only the test with that id runs:</p>
+<pre><code>$ dart myFile.dart 2
+unittest-suite-wait-for-done
+2 FAIL: failing test</code></pre>
+<p>if no id is provided, all the tests run:</p>
+<pre><code>$ dart myFile.dart
+unittest-suite-wait-for-done
+1 PASS: passing test
+2 FAIL: failing test
+3 PASS: another passing test</code></pre>
+<p>Here is the complete example:</p>
+<pre><code>import &#39;package:unittest/unittest.dart&#39;;
+import &#39;package:args/args.dart&#39;;
+
+class SingleTestConfiguration extends Configuration {
+  get autoStart =&gt; false;
+  void onDone(int passed, int failed, int errors, List&lt;TestCase&gt; testCases,
+              String uncaughtError) {
+    testCases.forEach((testCase){
+      // get the id of the testCase in there
+      print(&quot;${testCase.id}\t${testCase.result.toUpperCase()}: ${testCase.description}&quot;);
+      });
+   // skip the summary that is normally provided here...
+  }
+}
+
+void useSingleTestConfiguration() {
+  configure(new SingleTestConfiguration());
+  ensureInitialized();  
+}
+
+void main() {
+  useSingleTestConfiguration();
+
+  // get the args from the command line
+  ArgParser argParser = new ArgParser();
+  Options options = new Options();
+  ArgResults results = argParser.parse(options.arguments);
+  List&lt;String&gt; args = results.rest;
+
+  // note that the second test is failing
+  test(&quot;passing test&quot;, () =&gt; expect(1, equals(1)));
+  test(&quot;failing test&quot;, () =&gt; expect(false, isTrue));
+  test(&quot;another passing test&quot;, () =&gt; expect(3, equals(3)));
+
+  if (!args.isEmpty) {
+    setSoloTest(int.parse(args[0]));
+  }
+
+  // run the tests (we turned off auto-running of tests, remember?
+  runTests();
+}</code></pre>
+</body>
+</html>
+
+
+
