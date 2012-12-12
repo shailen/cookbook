@@ -1,10 +1,10 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
 <head>
   <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
   <title>Dart Cookbook</title>
-  <link rel="stylesheet" href="http://1-ps.googleusercontent.com/x/s.dart-lang.appspot.com/www.dartlang.org/css/W.style.css.pagespeed.cf.RjqwNm2LxS.css">
+  <link rel="stylesheet"
+  href="http://1-ps.googleusercontent.com/x/s.dart-lang.appspot.com/www.dartlang.org/css/W.style.css.pagespeed.cf.RjqwNm2LxS.css"
+  />
   <style type="text/css">
     body {margin-left:20px;}
   </style>
@@ -213,3 +213,6 @@ MERGE(setsolotest_output_without_arg)
 Here is the complete example:
 
 MERGE(setsolotest_complete_example)
+
+</body>
+</html>
