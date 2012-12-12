@@ -256,7 +256,7 @@ and:
 
 ### <a id="running_only_a_single_test"></a>Running only a single test
 
-pubspec dependencies: _unittest, args_
+**pubspec dependencies**: _unittest, args_
 
 #### Problem
 You are coding away furiously and diligently writing tests for everything. But,
@@ -382,6 +382,7 @@ Here is the complete example:
 	}
 
 ### <a id="filtering_which_tests_are_run"></a>Filtering which tests are run
+**pubspec dependencies**: _unittest, args_
 
 #### Problem
 You want to run just a subset of your tests, perhaps those  whose description
@@ -444,7 +445,7 @@ syntax. If the keyword is `four`, only one test run.
 	All 1 tests passed.
 	unittest-suite-success
 
-If it is `Betty`, all tests in `group()` run (same if it is 'butter').
+If it is `Betty`, all tests in `group()` run (same if it is `butter`).
 
 	unittest-suite-wait-for-done
 	PASS: Betty Botter bought a bit of butter

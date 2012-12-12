@@ -182,7 +182,7 @@ MERGE(character_codes_use_rot13_with_non_alpha)
 
 ### <a id="running_only_a_single_test"></a>Running only a single test
 
-pubspec dependencies: _unittest, args_
+**pubspec dependencies**: _unittest, args_
 
 #### Problem
 You are coding away furiously and diligently writing tests for everything. But,
@@ -232,6 +232,7 @@ Here is the complete example:
 MERGE(setsolotest_complete_example)
 
 ### <a id="filtering_which_tests_are_run"></a>Filtering which tests are run
+**pubspec dependencies**: _unittest, args_
 
 #### Problem
 You want to run just a subset of your tests, perhaps those  whose description
@@ -254,7 +255,7 @@ syntax. If the keyword is `four`, only one test run.
 
 MERGE(filtering_tests_keyword_equals_four)
 
-If it is `Betty`, all tests in `group()` run (same if it is 'butter').
+If it is `Betty`, all tests in `group()` run (same if it is `butter`).
 
 MERGE(filtering_tests_keyword_equals_Betty)
 

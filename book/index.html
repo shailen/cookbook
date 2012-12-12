@@ -171,7 +171,7 @@ String str2 = rot13(rot13(str1));
 // str1 == str2</code></pre>
 <h2 id="testing">Testing</h2>
 <h3 id="running-only-a-single-test"><a id="running_only_a_single_test"></a>Running only a single test</h3>
-<p>pubspec dependencies: <em>unittest, args</em></p>
+<p><strong>pubspec dependencies</strong>: <em>unittest, args</em></p>
 <h4 id="problem-3">Problem</h4>
 <p>You are coding away furiously and diligently writing tests for everything. But, running all your tests takes time and you want to run just a single test, perhaps the one for the code you are working on.</p>
 <h4 id="solution-3">Solution</h4>
@@ -268,6 +268,7 @@ void main() {
   runTests();
 }</code></pre>
 <h3 id="filtering-which-tests-are-run"><a id="filtering_which_tests_are_run"></a>Filtering which tests are run</h3>
+<p><strong>pubspec dependencies</strong>: <em>unittest, args</em></p>
 <h4 id="problem-4">Problem</h4>
 <p>You want to run just a subset of your tests, perhaps those whose description contains a word or a phrase, or that are collected together in a <code>group()</code>.</p>
 <h4 id="solution-4">Solution</h4>
@@ -315,7 +316,7 @@ PASS: four
 
 All 1 tests passed.
 unittest-suite-success</code></pre>
-<p>If it is <code>Betty</code>, all tests in <code>group()</code> run (same if it is 'butter').</p>
+<p>If it is <code>Betty</code>, all tests in <code>group()</code> run (same if it is <code>butter</code>).</p>
 <pre><code>unittest-suite-wait-for-done
 PASS: Betty Botter bought a bit of butter
 PASS: Betty Botter bought a bit of better butter
