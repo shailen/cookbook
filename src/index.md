@@ -135,3 +135,54 @@ MERGE(character_codes_use_rot13)
 and:
 
 MERGE(character_codes_use_rot13_with_non_alpha)
+
+## Testing
+
+### Running only a single test
+
+pubspec dependencies: _unittest, args_
+
+You are coding away furiously and diligently writing tests for everything. But,
+running all your tests takes time and you want to run just a single test,
+perhaps the one for the code you are working on.
+
+The easiest way to do this is to convert a `test()`s to a `solo_test()`:
+
+MERGE(solo_test_code)
+
+Run the tests now and you'll see that only the `solo_test()` runs; the `test()`
+does not.
+
+MERGE(solo_test_output)
+
+You can also run a single test by passing the `id` of that test
+to `setSoloTest()` (see `unittest/src/unittest.dart`), perhaps as a command-line
+arg.
+
+Since the default `unittest` ouput does not include the test `id`, you
+need to extend the default Configuration class (see unittest/src/config.dart):
+
+MERGE(setsolotest_extend_configuration)
+
+Our custom configuration is pretty minimal: we modify the default
+`Configuration`'s `onDone()` to include the test `id` on every line (`onDone()`
+also outputs a summary of the entire test run; we skip that here).
+
+Now we need code to use our new configuration and to initialize the test
+framework (we put code for that in `useSingleTestConfiguration()` and call that function
+from `main()`):
+
+MERGE(setsolotest_use_configuration)
+
+We use `ArgParser` to parse the command line arguments: if an id is provided
+through the command line, only the test with that id runs:
+
+MERGE(setsolotest_output_with_arg)
+
+if no id is provided, all the tests run:
+  
+MERGE(setsolotest_output_without_arg)
+
+Here is the complete example:
+
+MERGE(setsolotest_complete_example)

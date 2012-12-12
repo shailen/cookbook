@@ -1,0 +1,9 @@
+// BEGIN(running_a_single_test_pubspec)
+name:  running_a_single_test
+description:  A sample application that demonstrates the use of solo_test() and
+setSoloTest() to run a single test.
+
+dependencies:
+  unittest: 0.2.7
+  args: any
+// END(running_a_single_test_pubspec)
