@@ -1,6 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+  <title>Dart Cookbook</title>
+  <link rel="stylesheet" href="http://1-ps.googleusercontent.com/x/s.dart-lang.appspot.com/www.dartlang.org/css/W.style.css.pagespeed.cf.RjqwNm2LxS.css">
+  <style type="text/css">
+    body {margin-left:20px;}
+  </style>
+</head>
+<body>
+
+# Dart Cookbook
+
+## Contents
+
+- [Introduction](#introduction)
+- [Strings](#strings)
+    - [Concatenating Strings](#concatenating_strings)
+    - [Interpolating Expressions Inside Strings](#interpolating_expressions_inside_strings)
+    - [Converting Between Character Codes and Strings](#converting_between_character_codes_and_strings)
+- [Testing](#testing)
+    - [Running Only a Single Test](#running_only_a_single_test)
+
+## Introduction
+
 ## Strings
 
-### Concatenating Strings
+### <a id="concatenating_strings"></a>Concatenating Strings
 
 String concatenation using a `+` works in a lot of languages, but not in Dart.
 Since the `+` operator has not been defined for stings, the following code
@@ -39,7 +66,7 @@ only when needed.
 You can also use string interpolation; that is the subject of different
 recipe.
 
-### Interpolating Expressions Inside Strings
+### <a id="interpolating_expressions_inside_strings"></a>Interpolating Expressions Inside Strings
 
 You can access the value of an expression inside a string by using `${expression}`.
 
@@ -98,7 +125,7 @@ doing this sort of thing can lead to hard to maintain code. An abudance
 of caution is advised ;) 
 
 
-### Converting Between Character Codes and Strings
+### <a id="converting_between_character_codes_and_strings"></a>Converting Between Character Codes and Strings
 
 To get a list of character codes for a string, use `charCodes`:
 
@@ -138,7 +165,7 @@ MERGE(character_codes_use_rot13_with_non_alpha)
 
 ## Testing
 
-### Running only a single test
+### <a id="running_only_a_single_test"></a>Running Only a Single Test
 
 pubspec dependencies: _unittest, args_
 
