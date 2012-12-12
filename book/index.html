@@ -21,19 +21,19 @@ Dart Cookbook
 <li><a href="#introduction">Introduction</a></li>
 <li><a href="#strings">Strings</a>
 <ul>
-<li><a href="#concatenating_strings">Concatenating Strings</a></li>
-<li><a href="#interpolating_expressions_inside_strings">Interpolating Expressions Inside Strings</a></li>
-<li><a href="#converting_between_character_codes_and_strings">Converting Between Character Codes and Strings</a></li>
+<li><a href="#concatenating_strings">Concatenating strings</a></li>
+<li><a href="#interpolating_expressions_inside_strings">Interpolating expressions inside strings</a></li>
+<li><a href="#converting_between_character_codes_and_strings">Converting between character codes and strings</a></li>
 </ul></li>
 <li><a href="#testing">Testing</a>
 <ul>
-<li><a href="#running_only_a_single_test">Running Only a Single Test</a></li>
-<li><a href="#filtering_which_tests_are_run">Filtering Which Tests Are Run</a></li>
+<li><a href="#running_only_a_single_test">Running only a single test</a></li>
+<li><a href="#filtering_which_tests_are_run">Filtering which tests are run</a></li>
 </ul></li>
 </ul>
 <h2 id="introduction">Introduction</h2>
 <h2 id="strings">Strings</h2>
-<h3 id="concatenating-strings"><a id="concatenating_strings"></a>Concatenating Strings</h3>
+<h3 id="concatenating-strings"><a id="concatenating_strings"></a>Concatenating strings</h3>
 <h4 id="problem">Problem</h4>
 <p>String concatenation using a <code>+</code> works in a lot of languages, but not in Dart. Since the <code>+</code> operator has not been defined for stings, the following code throws a <code>NoSuchMethodError</code>:</p>
 <pre><code>String s = &quot;hello, &quot; + &quot;world!&quot;;</code></pre>
@@ -55,7 +55,7 @@ String s = sb.toString();</code></pre>
 String s = Strings.concatAll([&quot;hello, &quot;, &quot;world!&quot;]); </code></pre>
 <p>All of the above work, but if you are looking for a <code>+</code> substitute, use adjacent string literals; if you need to join a list of strings using a delimiter, use <code>Strings.join()</code>. If you plan on building a very long string, use <code>StringBuffer</code> to gather the components and convert them to a string only when needed.</p>
 <p>You can also use string interpolation; that is the subject of different recipe.</p>
-<h3 id="interpolating-expressions-inside-strings"><a id="interpolating_expressions_inside_strings"></a>Interpolating Expressions Inside Strings</h3>
+<h3 id="interpolating-expressions-inside-strings"><a id="interpolating_expressions_inside_strings"></a>Interpolating expressions inside strings</h3>
 <h4 id="problem-1">Problem</h4>
 <p>You want to use identifiers and Dart expressions in Strings.</p>
 <h4 id="solution-1">Solution</h4>
@@ -110,7 +110,7 @@ String s = &quot;${
   })(names)} was the most important member of the Beatles&quot;;</code></pre>
 <p>The code above defines an anonymous function to pick a random name from a list and then calls that function with <code>names</code> as an argument. All of this is done as part of string interpolation.</p>
 <p>Creating a function and immediately calling it is useful in a lot of situations (it is a common practice in Javascript); but, watch out: doing this sort of thing can lead to hard to maintain code. An abudance of caution is advised ;)</p>
-<h3 id="converting-between-character-codes-and-strings"><a id="converting_between_character_codes_and_strings"></a>Converting Between Character Codes and Strings</h3>
+<h3 id="converting-between-character-codes-and-strings"><a id="converting_between_character_codes_and_strings"></a>Converting between character codes and strings</h3>
 <h4 id="problem-2">Problem</h4>
 <p>You want to get the ascii character codes for a string, or to get the string corresponding to ascii codes.</p>
 <h4 id="solution-2">Solution</h4>
@@ -170,7 +170,7 @@ List rotated = wordList.map((word) {
 String str2 = rot13(rot13(str1));
 // str1 == str2</code></pre>
 <h2 id="testing">Testing</h2>
-<h3 id="running-only-a-single-test"><a id="running_only_a_single_test"></a>Running Only a Single Test</h3>
+<h3 id="running-only-a-single-test"><a id="running_only_a_single_test"></a>Running only a single test</h3>
 <p>pubspec dependencies: <em>unittest, args</em></p>
 <h4 id="problem-3">Problem</h4>
 <p>You are coding away furiously and diligently writing tests for everything. But, running all your tests takes time and you want to run just a single test, perhaps the one for the code you are working on.</p>
@@ -267,7 +267,7 @@ void main() {
   // run the tests (we turned off auto-running of tests, remember?
   runTests();
 }</code></pre>
-<h3 id="filtering-which-tests-are-run"><a id="filtering_which_tests_are_run"></a>Filtering Which Tests Are Run</h3>
+<h3 id="filtering-which-tests-are-run"><a id="filtering_which_tests_are_run"></a>Filtering which tests are run</h3>
 <h4 id="problem-4">Problem</h4>
 <p>You want to run just a subset of your tests, perhaps those whose description contains a word or a phrase, or that are collected together in a <code>group()</code>.</p>
 <h4 id="solution-4">Solution</h4>

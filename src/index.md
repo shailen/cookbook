@@ -17,18 +17,18 @@
 
 - [Introduction](#introduction)
 - [Strings](#strings)
-    - [Concatenating Strings](#concatenating_strings)
-    - [Interpolating Expressions Inside Strings](#interpolating_expressions_inside_strings)
-    - [Converting Between Character Codes and Strings](#converting_between_character_codes_and_strings)
+    - [Concatenating strings](#concatenating_strings)
+    - [Interpolating expressions inside strings](#interpolating_expressions_inside_strings)
+    - [Converting between character codes and strings](#converting_between_character_codes_and_strings)
 - [Testing](#testing)
-    - [Running Only a Single Test](#running_only_a_single_test)
-    - [Filtering Which Tests Are Run](#filtering_which_tests_are_run)
+    - [Running only a single test](#running_only_a_single_test)
+    - [Filtering which tests are run](#filtering_which_tests_are_run)
 
 ## Introduction
 
 ## Strings
 
-### <a id="concatenating_strings"></a>Concatenating Strings
+### <a id="concatenating_strings"></a>Concatenating strings
 
 #### Problem
 String concatenation using a `+` works in a lot of languages, but not in Dart.
@@ -70,7 +70,7 @@ only when needed.
 You can also use string interpolation; that is the subject of different
 recipe.
 
-### <a id="interpolating_expressions_inside_strings"></a>Interpolating Expressions Inside Strings
+### <a id="interpolating_expressions_inside_strings"></a>Interpolating expressions inside strings
 
 #### Problem
 You want to use identifiers and Dart expressions in Strings.
@@ -134,7 +134,7 @@ doing this sort of thing can lead to hard to maintain code. An abudance
 of caution is advised ;) 
 
 
-### <a id="converting_between_character_codes_and_strings"></a>Converting Between Character Codes and Strings
+### <a id="converting_between_character_codes_and_strings"></a>Converting between character codes and strings
 
 #### Problem
 You want to get the ascii character codes for a string, or to get the
@@ -180,7 +180,7 @@ MERGE(character_codes_use_rot13_with_non_alpha)
 
 ## Testing
 
-### <a id="running_only_a_single_test"></a>Running Only a Single Test
+### <a id="running_only_a_single_test"></a>Running only a single test
 
 pubspec dependencies: _unittest, args_
 
@@ -231,7 +231,7 @@ Here is the complete example:
 
 MERGE(setsolotest_complete_example)
 
-### <a id="filtering_which_tests_are_run"></a>Filtering Which Tests Are Run
+### <a id="filtering_which_tests_are_run"></a>Filtering which tests are run
 
 #### Problem
 You want to run just a subset of your tests, perhaps those  whose description
