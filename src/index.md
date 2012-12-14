@@ -13,7 +13,7 @@
 
 # Dart Cookbook
 
-## Contents
+# Contents
 
 - [Introduction](#introduction)
 - [Strings](#strings)
@@ -23,10 +23,12 @@
 - [Testing](#testing)
     - [Running only a single test](#running_only_a_single_test)
     - [Filtering which tests are run](#filtering_which_tests_are_run)
+- [HTML5](#html5)
+    - [Geolocation](#geolocation)
 
-## Introduction
+# Introduction
 
-## Strings
+# Strings
 
 ### <a id="concatenating_strings"></a>Concatenating strings
 
@@ -178,7 +180,7 @@ and:
 
 MERGE(character_codes_use_rot13_with_non_alpha)
 
-## Testing
+# Testing
 
 ### <a id="running_only_a_single_test"></a>Running only a single test
 
@@ -260,6 +262,35 @@ If it is `Betty`, all tests in `group()` run (same if it is `butter`).
 MERGE(filtering_tests_keyword_equals_Betty)
 
 If it is `banana`, 3 tests run.  Without a keyword, all tests run.
+
+# HTML5
+
+## Geolocation
+
+#### Problem
+You want to use the HTML5 Geolocation API to keep track of the distance you have
+travelled from a starting position.
+
+#### Solution
+
+The Geolocation API can be accessed throught the browser's `navigator` property
+and is generally well supported in modern browsers (see http://caniuse.com for
+specifics).  Note that a user's location information can only be accessed by
+an application with the user's express consent. 
+
+You access your starting location by accessing `navigator.geolocation.startPosition()`;
+you monitor your location as it changes by  using `navigator.geolocation.watchPosition()`.
+Both functions work asynchoronously and return a Dart `Geoposition` object. This
+object's `coords` attribute contains the location's `latitude` and `longitude`,
+the browser's sense of the `accuracy` of the datac (defined in feet)
+and a few other properties. 
+
+Our recipe captures the starting data, the current data and tracks the distance
+change and the time taken. Our geodata consists of four points: the latitude,
+the longitude, the timestamp, and the accuracy of the data. The accuracy is
+displayed in green if it is less than 50 ft; otherwise it is displayed in red.
+
+The code can be seen at recipes/html5/geolocation/distance_tracker
 
 </body>
 </html>

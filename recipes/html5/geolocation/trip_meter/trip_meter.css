@@ -1,0 +1,22 @@
+/*
+  Copyright (c) 2012, the Dart project authors.  Please see the AUTHORS file
+  for details. All rights reserved. Use of this source code is governed by a
+  BSD-style license that can be found in the COPYING file.
+*/
+
+body {
+  font-family: sans-serif;  
+}
+
+td, th {
+  width:180px;
+  text-align: left;
+}
+
+.red {
+  color: rgb(180, 30, 20);
+}
+
+.green {
+  color: rgb(20, 180, 20);
+}

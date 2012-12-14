@@ -16,7 +16,7 @@ Dart Cookbook
 <body>
 
 <h1 id="dart-cookbook">Dart Cookbook</h1>
-<h2 id="contents">Contents</h2>
+<h1 id="contents">Contents</h1>
 <ul>
 <li><a href="#introduction">Introduction</a></li>
 <li><a href="#strings">Strings</a>
@@ -30,9 +30,13 @@ Dart Cookbook
 <li><a href="#running_only_a_single_test">Running only a single test</a></li>
 <li><a href="#filtering_which_tests_are_run">Filtering which tests are run</a></li>
 </ul></li>
+<li><a href="#html5">HTML5</a>
+<ul>
+<li><a href="#geolocation">Geolocation</a></li>
+</ul></li>
 </ul>
-<h2 id="introduction">Introduction</h2>
-<h2 id="strings">Strings</h2>
+<h1 id="introduction">Introduction</h1>
+<h1 id="strings">Strings</h1>
 <h3 id="concatenating-strings"><a id="concatenating_strings"></a>Concatenating strings</h3>
 <h4 id="problem">Problem</h4>
 <p>String concatenation using a <code>+</code> works in a lot of languages, but not in Dart. Since the <code>+</code> operator has not been defined for stings, the following code throws a <code>NoSuchMethodError</code>:</p>
@@ -169,7 +173,7 @@ List rotated = wordList.map((word) {
 <pre><code>String str1 = &quot;aMz####AmZ&quot;;
 String str2 = rot13(rot13(str1));
 // str1 == str2</code></pre>
-<h2 id="testing">Testing</h2>
+<h1 id="testing">Testing</h1>
 <h3 id="running-only-a-single-test"><a id="running_only_a_single_test"></a>Running only a single test</h3>
 <p><strong>pubspec dependencies</strong>: <em>unittest, args</em></p>
 <h4 id="problem-3">Problem</h4>
@@ -324,6 +328,8 @@ PASS: Betty Botter bought a bit of better butter
 All 2 tests passed.
 unittest-suite-success</code></pre>
 <p>If it is <code>banana</code>, 3 tests run. Without a keyword, all tests run.</p>
+<h1 id="html5">HTML5</h1>
+<h2 id="geolocation">Geolocation</h2>
 </body>
 </html>
 

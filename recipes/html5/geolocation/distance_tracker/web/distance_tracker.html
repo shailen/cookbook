@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Distance Tracker</title>
+    <link rel="stylesheet" href="distance_tracker.css">
+  </head>
+  <body>
+    <h2>Distance Tracker</h2>
+    <table id="geo-data">
+      <tr>
+        <th></th>
+        <th>Lat</th>
+        <th>Long</th>
+        <th>Timestamp</th>
+        <th>Accuracy</th>
+      </tr>
+    </table>
+    
+    <br>
+      
+    <table>
+      <tr>
+        <td>Distance travelled: </td>
+        <td id="distance"></td>
+      </tr>
+      <tr>
+        <td>Duration: </td>
+        <td id="duration"></td>
+      </tr>
+    </table>
+   
+    <script type="application/dart" src="distance_tracker.dart"></script>
+    <script src="http://dart.googlecode.com/svn/branches/bleeding_edge/dart/client/dart.js"></script>
+  </body>
+</html>

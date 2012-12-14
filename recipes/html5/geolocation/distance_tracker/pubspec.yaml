@@ -1,0 +1,6 @@
+name:  distance_tracker
+description:  A sample geolocation app using the Dart Geoposition property
+
+#dependencies:
+#  js: any
+#  unittest: any
