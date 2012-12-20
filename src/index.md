@@ -275,22 +275,21 @@ travelled from a starting position.
 
 The Geolocation API can be accessed throught the browser's `navigator` property
 and is generally well supported in modern browsers (see http://caniuse.com for
-specifics).  Note that a user's location information can only be accessed by
-an application with the user's express consent. 
+specifics).  A user's location information can only be accessed by an
+application with the user's express consent. 
 
-You access your starting location by accessing `navigator.geolocation.startPosition()`;
+You access your starting location by accessing `navigator.geolocation.getStartPosition()`;
 you monitor your location as it changes by  using `navigator.geolocation.watchPosition()`.
 Both functions work asynchoronously and return a Dart `Geoposition` object. This
 object's `coords` attribute contains the location's `latitude` and `longitude`,
-the browser's sense of the `accuracy` of the datac (defined in feet)
-and a few other properties. 
+the browser's sense of the `accuracy` of the data (defined in feet) and a few
+other properties. 
 
 Our recipe captures the starting data, the current data and tracks the distance
-change and the time taken. Our geodata consists of four points: the latitude,
-the longitude, the timestamp, and the accuracy of the data. The accuracy is
-displayed in green if it is less than 50 ft; otherwise it is displayed in red.
+change. Our geodata consists of four points: the latitude, the longitude, the
+timestamp, and the accuracy of the data. The accuracy is displayed in green if
+it is less than 50 ft; otherwise it is displayed in red.
 
-The code can be seen at recipes/html5/geolocation/distance_tracker
 
 </body>
 </html>

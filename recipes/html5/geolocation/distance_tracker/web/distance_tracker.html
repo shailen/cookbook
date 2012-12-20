@@ -9,7 +9,7 @@
     <h2>Distance Tracker</h2>
     <table id="geo-data">
       <tr>
-        <th></th>
+        <th>Position Count</th>
         <th>Lat</th>
         <th>Long</th>
         <th>Timestamp</th>
@@ -24,11 +24,9 @@
         <td>Distance travelled: </td>
         <td id="distance"></td>
       </tr>
-      <tr>
-        <td>Duration: </td>
-        <td id="duration"></td>
-      </tr>
     </table>
+   
+   <div id="error"></div>
    
     <script type="application/dart" src="distance_tracker.dart"></script>
     <script src="http://dart.googlecode.com/svn/branches/bleeding_edge/dart/client/dart.js"></script>

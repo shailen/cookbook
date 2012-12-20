@@ -39,13 +39,13 @@ void _displayErrorMessage(String error_message) {
 void displayCurrentPositionData(Geoposition position) {
   var elem = new TableRowElement();
   elem.innerHtml = _displayData("Starting", position);
-  query("#geo-data").elements.add(elem);
+  query("#geo-data").children.add(elem);
 }
 
 void displayWatchPositionData(Geoposition startPosition, Geoposition currentPosition) {
   var elem = new TableRowElement();
   elem.innerHtml = _displayData("Current", currentPosition);
-  query("#geo-data").elements.add(elem);
+  query("#geo-data").children.add(elem);
   
   num distance = _calculateDistance(
     startPosition.coords.latitude,
@@ -54,7 +54,6 @@ void displayWatchPositionData(Geoposition startPosition, Geoposition currentPosi
     currentPosition.coords.longitude);
   
   query("#distance").text = "${distance.toStringAsFixed(4)} miles";
-  query("#duration").text = "${((currentPosition.timestamp - startPosition.timestamp) / 1000).toStringAsFixed(4)} sec";
 }
 
 void handleError(PositionError error) {
@@ -67,25 +66,26 @@ void handleError(PositionError error) {
     case PositionError.TIMEOUT:
       _displayErrorMessage("The browser timed out before fetching your location"); break;
     default:
-      _displayErrorMessage("There was an error in retreiving your location: ${error.message}");
+      _displayErrorMessage("There was an error in retreiving your location: ${error.message}"); break;
   }
 }
 
 void main(){
   
   Geoposition startPosition;
+  var optional_params = {'timeout': 10000, 'enableHighAccuracy': true};
   
   window.navigator.geolocation.getCurrentPosition(
     (Geoposition position) {
       startPosition = position;
       displayCurrentPositionData(position);
     },
-    (error) => handleError(error)
+    (error) => handleError(error), optional_params
   );
  
   window.navigator.geolocation.watchPosition((Geoposition position) {
     displayWatchPositionData(startPosition, position);
     },
-    (error) => handleError(error)
+    (error) => handleError(error), optional_params
   );
 }
