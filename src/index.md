@@ -290,6 +290,40 @@ change. Our geodata consists of four points: the latitude, the longitude, the
 timestamp, and the accuracy of the data. The accuracy is displayed in green if
 it is less than 50 ft; otherwise it is displayed in red.
 
+The markup is fairly straightforward: we dynamically inject data into a table as
+it is made available and organize it under `Position Count`, `Lat`, `Long`,
+`Timestamp` and `Accuracy` headings. And we dynamically update the distance
+travelled every time we get new data. 
+
+MERGE(distance_tracker_html)
+
+In `distance_tracker.dart`, we define success and failure callbacks  for both
+the `getCurrentPosition()` and `watchPosition()` `geolocation` properties. The
+success callback for `getCurrentPosition()` initializes a `startPosition`
+object and injects the starting data into the display; the success callback for
+`watchPosition()` appends a row to the display table every time the browser
+provides new geolocation data; in addition, the callback updates the overall
+distance travelled using the familiar Haversine formula for determining the
+distance between 2 global points:
+
+MERGE(distance_tracker_haversine)
+
+The entire recipe, with some refactoring and some helper functions, looks like
+this:
+
+MERGE(distance_tracker_dart)
+
+#### Browser support
+The recipe can be found under `recipes/html5/geolocation/distance_tracker`. The
+app can be run using `Dartium`. The js code generated through `dart2js` allows for
+the recipe to be run in Chrome (tested on Version 23.0.1271.95) and Safari (Version
+6.0.2 (8536.26.17)). In all cases, the user must provide the application
+approval to access geolocation data for this recipe to work (at this time, such
+approval seems to be turned off by default in Safari).
+
+#### Known issues
+At this time, the recipe does not work in Firefox (Version 17.0) due to an error in the 
+compiled javascript. See http://code.google.com/p/dart/issues/detail?id=7547.
 
 </body>
 </html>

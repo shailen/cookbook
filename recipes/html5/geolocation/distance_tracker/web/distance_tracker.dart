@@ -1,8 +1,10 @@
+// BEGIN(distance_tracker_dart)
 import 'dart:html';
 import 'dart:math';
 
 // This uses the Haversine formula for calculating the distance between 
 // 2 points on the globe (http://en.wikipedia.org/wiki/Haversine_formula)
+// BEGIN(distance_tracker_haversine)
 num _calculateDistance(lat1, long1, lat2, long2) {
   const num EARTH_RADIUS = 6371; // in km
   const num MILES_PER_KM = .6;
@@ -15,6 +17,7 @@ num _calculateDistance(lat1, long1, lat2, long2) {
   var distance = EARTH_RADIUS * c;
   return distance * MILES_PER_KM;
 }
+// END(distance_tracker_haversine)
 
 num _toRad(num x) => x * PI / 180;
 
@@ -70,9 +73,11 @@ void handleError(PositionError error) {
   }
 }
 
+// BEGIN(distance_tracker_main)
 void main(){
   
   Geoposition startPosition;
+  // raise error for requests longer than 10 seconds; filter out inaccurate readings
   var optional_params = {'timeout': 10000, 'enableHighAccuracy': true};
   
   window.navigator.geolocation.getCurrentPosition(
@@ -89,3 +94,4 @@ void main(){
     (error) => handleError(error), optional_params
   );
 }
+// END(distance_tracker_main)

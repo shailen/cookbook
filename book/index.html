@@ -333,10 +333,154 @@ unittest-suite-success</code></pre>
 <h4 id="problem-5">Problem</h4>
 <p>You want to use the HTML5 Geolocation API to keep track of the distance you have travelled from a starting position.</p>
 <h4 id="solution-5">Solution</h4>
-<p>The Geolocation API can be accessed throught the browser's <code>navigator</code> property and is generally well supported in modern browsers (see http://caniuse.com for specifics). Note that a user's location information can only be accessed by an application with the user's express consent.</p>
-<p>You access your starting location by accessing <code>navigator.geolocation.startPosition()</code>; you monitor your location as it changes by using <code>navigator.geolocation.watchPosition()</code>. Both functions work asynchoronously and return a Dart <code>Geoposition</code> object. This object's <code>coords</code> attribute contains the location's <code>latitude</code> and <code>longitude</code>, the browser's sense of the <code>accuracy</code> of the datac (defined in feet) and a few other properties.</p>
-<p>Our recipe captures the starting data, the current data and tracks the distance change and the time taken. Our geodata consists of four points: the latitude, the longitude, the timestamp, and the accuracy of the data. The accuracy is displayed in green if it is less than 50 ft; otherwise it is displayed in red.</p>
-<p>The code can be seen at recipes/html5/geolocation/distance_tracker</p>
+<p>The Geolocation API can be accessed throught the browser's <code>navigator</code> property and is generally well supported in modern browsers (see http://caniuse.com for specifics). A user's location information can only be accessed by an application with the user's express consent.</p>
+<p>You access your starting location by accessing <code>navigator.geolocation.getStartPosition()</code>; you monitor your location as it changes by using <code>navigator.geolocation.watchPosition()</code>. Both functions work asynchoronously and return a Dart <code>Geoposition</code> object. This object's <code>coords</code> attribute contains the location's <code>latitude</code> and <code>longitude</code>, the browser's sense of the <code>accuracy</code> of the data (defined in feet) and a few other properties.</p>
+<p>Our recipe captures the starting data, the current data and tracks the distance change. Our geodata consists of four points: the latitude, the longitude, the timestamp, and the accuracy of the data. The accuracy is displayed in green if it is less than 50 ft; otherwise it is displayed in red.</p>
+<p>The markup is fairly straightforward: we dynamically inject data into a table as it is made available and organize it under <code>Position Count</code>, <code>Lat</code>, <code>Long</code>, <code>Timestamp</code> and <code>Accuracy</code> headings. And we dynamically update the distance travelled every time we get new data.</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;meta charset=&quot;utf-8&quot;&gt;
+    &lt;title&gt;Distance Tracker&lt;/title&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;distance_tracker.css&quot;&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;h2&gt;Distance Tracker&lt;/h2&gt;
+    &lt;table id=&quot;geo-data&quot;&gt;
+      &lt;tr&gt;
+        &lt;th&gt;Position Count&lt;/th&gt;
+        &lt;th&gt;Lat&lt;/th&gt;
+        &lt;th&gt;Long&lt;/th&gt;
+        &lt;th&gt;Timestamp&lt;/th&gt;
+        &lt;th&gt;Accuracy&lt;/th&gt;
+      &lt;/tr&gt;
+    &lt;/table&gt;
+
+    &lt;br&gt;
+
+    &lt;table&gt;
+      &lt;tr&gt;
+        &lt;td&gt;Distance travelled: &lt;/td&gt;
+        &lt;td id=&quot;distance&quot;&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/table&gt;
+
+   &lt;div id=&quot;error&quot;&gt;&lt;/div&gt;
+
+    &lt;script type=&quot;application/dart&quot; src=&quot;distance_tracker.dart&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;http://dart.googlecode.com/svn/branches/bleeding_edge/dart/client/dart.js&quot;&gt;&lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p>In <code>distance_tracker.dart</code>, we define success and failure callbacks for both the <code>getCurrentPosition()</code> and <code>watchPosition()</code> <code>geolocation</code> properties. The success callback for <code>getCurrentPosition()</code> initializes a <code>startPosition</code> object and injects the starting data into the display; the success callback for <code>watchPosition()</code> appends a row to the display table every time the browser provides new geolocation data; in addition, the callback updates the overall distance travelled using the familiar Haversine formula for determining the distance between 2 global points:</p>
+<pre><code>num _calculateDistance(lat1, long1, lat2, long2) {
+  const num EARTH_RADIUS = 6371; // in km
+  const num MILES_PER_KM = .6;
+  var LatDiff = _toRad((lat2-lat1));
+  var LongDiff = _toRad((long2-long1));
+  var a = pow(sin(LatDiff/2), 2) +
+          cos(_toRad(lat1)) * cos(_toRad(lat2)) *
+          pow(sin(LongDiff/2), 2);
+  var c = 2 * atan2(sqrt(a), sqrt(1-a));
+  var distance = EARTH_RADIUS * c;
+  return distance * MILES_PER_KM;
+}</code></pre>
+<p>The entire recipe, with some refactoring and some helper functions, looks like this:</p>
+<pre><code>import &#39;dart:html&#39;;
+import &#39;dart:math&#39;;
+
+// This uses the Haversine formula for calculating the distance between 
+// 2 points on the globe (http://en.wikipedia.org/wiki/Haversine_formula)
+num _calculateDistance(lat1, long1, lat2, long2) {
+  const num EARTH_RADIUS = 6371; // in km
+  const num MILES_PER_KM = .6;
+  var LatDiff = _toRad((lat2-lat1));
+  var LongDiff = _toRad((long2-long1));
+  var a = pow(sin(LatDiff/2), 2) +
+          cos(_toRad(lat1)) * cos(_toRad(lat2)) *
+          pow(sin(LongDiff/2), 2);
+  var c = 2 * atan2(sqrt(a), sqrt(1-a));
+  var distance = EARTH_RADIUS * c;
+  return distance * MILES_PER_KM;
+}
+
+num _toRad(num x) =&gt; x * PI / 180;
+
+String _getTime(timestamp) {
+  Date date = new Date.fromMillisecondsSinceEpoch(timestamp);
+  return date.toString().split(&quot; &quot;).last.split(&quot;.&quot;)[0];
+}
+
+String _displayData(String subject, Geoposition position) {
+  return &quot;&quot;&quot;&lt;td&gt;&lt;b&gt;$subject&lt;/b&gt;&lt;/td&gt;
+  &lt;td&gt;${position.coords.latitude}&amp;deg;&lt;/td&gt;
+  &lt;td&gt;${position.coords.longitude}&amp;deg;&lt;/td&gt;
+  &lt;td&gt;${_getTime(position.timestamp)}&lt;/td&gt;
+  &lt;td class=${position.coords.accuracy &gt; 100 ? &quot;red&quot; : &quot;green&quot;}&gt;${position.coords.accuracy} feet&lt;/td&gt;&quot;&quot;&quot;;
+}
+
+void _displayErrorMessage(String error_message) {
+  var error_div = query(&quot;#error&quot;);
+  error_div.text = error_message; 
+}
+
+void displayCurrentPositionData(Geoposition position) {
+  var elem = new TableRowElement();
+  elem.innerHtml = _displayData(&quot;Starting&quot;, position);
+  query(&quot;#geo-data&quot;).children.add(elem);
+}
+
+void displayWatchPositionData(Geoposition startPosition, Geoposition currentPosition) {
+  var elem = new TableRowElement();
+  elem.innerHtml = _displayData(&quot;Current&quot;, currentPosition);
+  query(&quot;#geo-data&quot;).children.add(elem);
+
+  num distance = _calculateDistance(
+    startPosition.coords.latitude,
+    startPosition.coords.longitude,
+    currentPosition.coords.latitude,
+    currentPosition.coords.longitude);
+
+  query(&quot;#distance&quot;).text = &quot;${distance.toStringAsFixed(4)} miles&quot;;
+}
+
+void handleError(PositionError error) {
+  var error_div = query(&quot;#error&quot;);
+  switch (error.code) {
+    case PositionError.PERMISSION_DENIED:
+      _displayErrorMessage(&quot;The user did not grant permission to access location data.&quot;); break;
+    case PositionError.POSITION_UNAVAILABLE:
+      _displayErrorMessage(&quot;The browser could not determine your location&quot;); break;
+    case PositionError.TIMEOUT:
+      _displayErrorMessage(&quot;The browser timed out before fetching your location&quot;); break;
+    default:
+      _displayErrorMessage(&quot;There was an error in retreiving your location: ${error.message}&quot;); break;
+  }
+}
+
+void main(){
+
+  Geoposition startPosition;
+  // raise error for requests longer than 10 seconds; filter out inaccurate readings
+  var optional_params = {&#39;timeout&#39;: 10000, &#39;enableHighAccuracy&#39;: true};
+
+  window.navigator.geolocation.getCurrentPosition(
+    (Geoposition position) {
+      startPosition = position;
+      displayCurrentPositionData(position);
+    },
+    (error) =&gt; handleError(error), optional_params
+  );
+
+  window.navigator.geolocation.watchPosition((Geoposition position) {
+    displayWatchPositionData(startPosition, position);
+    },
+    (error) =&gt; handleError(error), optional_params
+  );
+}</code></pre>
+<h4 id="browser-support">Browser support</h4>
+<p>The recipe can be found under <code>recipes/html5/geolocation/distance_tracker</code>. The app can be run using <code>Dartium</code>. The js code generated through <code>dart2js</code> allows for the recipe to be run in Chrome (tested on Version 23.0.1271.95) and Safari (Version 6.0.2 (8536.26.17)). In all cases, the user must provide the application approval to access geolocation data for this recipe to work (at this time, such approval seems to be turned off by default in Safari).</p>
+<h4 id="known-issues">Known issues</h4>
+<p>At this time, the recipe does not work in Firefox (Version 17.0) due to an error in the compiled javascript. See http://code.google.com/p/dart/issues/detail?id=7547.</p>
 </body>
 </html>
 
